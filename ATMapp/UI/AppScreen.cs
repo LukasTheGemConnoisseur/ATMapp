@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ATMapp.Domain.Modal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,17 @@ namespace ATMapp.UI
         }
 
         //Create a method that validates the user's account
+
+        internal static UserAccounts userLoginForm()
+        {
+            UserAccounts tempUserAccounts = new UserAccounts();
+
+            tempUserAccounts.CardNumber = Validator.Convert<long>("Your card number.");
+            tempUserAccounts.CardPin = Convert.ToInt32(Utility.GetSecretInput("Enter your card PIN"));
+
+            return tempUserAccounts;
+
+        }
 
 
 
