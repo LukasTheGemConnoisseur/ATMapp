@@ -167,14 +167,40 @@ namespace ATMapp.App
                     $"\nWithdrawals ${withdrawalAmount}" + "\n\n\n\n\n................................................."
                     + "\nThank you for using the Bitcoin ATM APP!" + "\nSee you next time!");
                 Utility.PressEnterToContinue();
-                Console.Clear();
 
+                Console.Clear();
                 AppScreen.Welcome();
+                CheckUserCardNumAndPassword();
+                Welcome();
+                ViewBalance();
+                Withdrawal();
+                PrintReceipt();
+            }
+            else if(userAnswer.ToLower() == "n")
+            {
+                Console.WriteLine("\nNo receipt option chosen." + "\nUntil next time!");
+                Utility.PressEnterToContinue();
+
+                Console.Clear();
+                AppScreen.Welcome();
+                CheckUserCardNumAndPassword();
+                Welcome();
+                ViewBalance();
+                Withdrawal();
+                PrintReceipt();
+
             }
             else
             {
+                Console.WriteLine("\nReceipt not available. Please inform store clerk.");
+                Utility.PressEnterToContinue();
                 Console.Clear();
                 AppScreen.Welcome();
+                CheckUserCardNumAndPassword();
+                Welcome();
+                ViewBalance();
+                Withdrawal();
+                PrintReceipt();
             }
 
         }
