@@ -36,40 +36,41 @@ namespace ATMapp.App
         {
             bool isCorrectLogin = false;
 
-            while(isCorrectLogin==false)
+            while (!isCorrectLogin)
             {
                 UserAccounts inputAccount = AppScreen.userLoginForm();
 
                 AppScreen.LoginProgress();
 
-                foreach(UserAccounts account in userAccountList)
+                foreach (UserAccounts account in userAccountList) //Goes through each item in the useraccountList list
                 {
-                    selectedAccounts = account;
-                    if(inputAccount.CardNumber.Equals(selectedAccounts.CardNumber))
+                    if (inputAccount.CardNumber.Equals(account.CardNumber) && inputAccount.CardPin.Equals(account.CardPin)) //This checks if the given account number and 
+                        // pin are correct, if they are not this if statement is skipped.
                     {
-                        selectedAccounts.totalLogin++; // TotalLogin results in an integer that counts how many times a user tries to log in to a specific accounts
-                        if(inputAccount.CardPin.Equals(selectedAccounts.CardPin))
-                        {
-                            selectedAccounts = account;
+                        selectedAccounts = account; // the selectedaccounts variable is now set to the correct account (since it went through the pin and number check previously)
+                        selectedAccounts.totalLogin++;
 
-                            if(selectedAccounts.isLocked || selectedAccounts.totalLogin > 3)
-                            {
-                                AppScreen.PrintLockScreen();
-                            }
-                            else
-                            {
-                                selectedAccounts.totalLogin = 0;
-                                isCorrectLogin = true;
-                                break;
-                            }
+                        if (selectedAccounts.isLocked || selectedAccounts.totalLogin > 3)
+                        {
+                            AppScreen.PrintLockScreen();
+                        }
+                        else
+                        {
+                            selectedAccounts.totalLogin = 0;
+                            isCorrectLogin = true;
+                            break;
                         }
                     }
-                    if (isCorrectLogin == false)
-                    {
-                        Utility.PrintMessage("\nInvalid card number or PIN.", false);
-                        selectedAccounts.isLocked = selectedAccounts.totalLogin == 3;
+                }
 
-                        if(selectedAccounts.isLocked)
+                if (!isCorrectLogin) // This only gets used if the pin and card number given by user are incorrect
+                {
+                    Utility.PrintMessage("\nInvalid card number or PIN.", false);
+
+                    foreach (UserAccounts account in userAccountList)
+                    {
+                        account.isLocked = account.totalLogin == 3;
+                        if (account.isLocked)
                         {
                             AppScreen.PrintLockScreen();
                         }
